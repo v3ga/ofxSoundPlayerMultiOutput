@@ -21,3 +21,7 @@ https://raw.githubusercontent.com/vcuculo/ofxMultiSpeakerSoundPlayer
 
 ## Platform
 Developped with Openframeworks 0.8+ on MacOS 10.9.4 with a Motu 828mk2 device connected through Firewire.
+
+## Screenshot
+![System preferences](http://v3ga.github.io/Images/ofxSoundPlayerMultiOutput/ofxSoundPlayerMultiOutput_System_preferences.png)
+![Motu speakers list](http://v3ga.github.io/Images/ofxSoundPlayerMultiOutput/ofxSoundPlayerMultiOutput_Soundcard_MOTU_outputs.png)
