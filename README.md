@@ -12,7 +12,7 @@ Then you can use the method `playTo` to play the loaded sound on different speak
 	...
 	soundPlayer.playTo(1); 			// Plays sound to speaker 1
 	soundPlayer.playTo(3,4); 		// Plays sound to speakers 3,4
-	int speakers[4] = {0,1,4,5} 	
+	int speakers[4] = {0,1,4,5};	
 	soundPlayer.playTo(speakers,4); // Plays sound to speakers 0,1,4,5
 
 
