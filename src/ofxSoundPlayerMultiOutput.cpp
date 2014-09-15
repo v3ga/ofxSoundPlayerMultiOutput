@@ -13,6 +13,7 @@ float fftSpectrum_[8192];		// maximum #ofxSoundPlayerMultiOutput is 8192, in fmo
 static FMOD_CHANNELGROUP * channelgroup;
 static FMOD_SYSTEM       * sys;
 static int 				 driverFMOD=0;
+static int			     numOutputsFMOD=16;
 
 // these are global functions, that affect every sound / channel:
 // ------------------------------------------------------------
@@ -48,6 +49,12 @@ void ofFmodErrorCheck(FMOD_RESULT result)
     {
         ofLog(OF_LOG_ERROR) << "FMOD error! " << ofToString( FMOD_ErrorString(result) );
     }
+}
+
+//--------------------
+void ofFmodSetNumOutputs(int num)
+{
+	numOutputsFMOD = num;
 }
 
 
@@ -234,7 +241,7 @@ void ofxSoundPlayerMultiOutput::initializeFmod()
 		ofFmodErrorCheck( FMOD_System_SetDriver(sys, driverFMOD) );
 
 		// (FMOD_SYSTEM *system, int samplerate, FMOD_SOUND_FORMAT format, int numoutputchannels, int maxinputchannels, FMOD_DSP_RESAMPLER resamplemethod);
-		ofFmodErrorCheck( FMOD_System_SetSoftwareFormat(sys, 44100, FMOD_SOUND_FORMAT_NONE, 15,0,FMOD_DSP_RESAMPLER_LINEAR) );
+		ofFmodErrorCheck( FMOD_System_SetSoftwareFormat(sys, 44100, FMOD_SOUND_FORMAT_NONE, numOutputsFMOD, 0,FMOD_DSP_RESAMPLER_LINEAR) );
 
 		// Speaker mode
         ofFmodErrorCheck( FMOD_System_SetSpeakerMode(sys, FMOD_SPEAKERMODE_RAW) );

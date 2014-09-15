@@ -21,5 +21,6 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		ofxSoundPlayerMultiOutput soundPlayer;
+		//ofSoundPlayer soundPlayer;
 	
 };
