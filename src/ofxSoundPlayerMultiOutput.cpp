@@ -12,6 +12,7 @@ float fftSpectrum_[8192];		// maximum #ofxSoundPlayerMultiOutput is 8192, in fmo
 // ---------------------  static vars
 static FMOD_CHANNELGROUP * channelgroup;
 static FMOD_SYSTEM       * sys;
+static int				 numDrivers=0;
 static int 				 driverFMOD=0;
 static int			     numOutputsFMOD=16;
 
@@ -69,6 +70,19 @@ void ofFmodSelectDriver(int driver)
 {
 	driverFMOD = driver;
 }
+
+//--------------------
+int ofFmodGetNumDrivers()
+{
+	return numDrivers;
+}
+
+//--------------------
+int ofFmodGetDriverSelected()
+{
+	return driverFMOD;
+}
+
 
 //--------------------
 float * ofFmodSoundGetSpectrum(int nBands)
@@ -196,7 +210,6 @@ ofxSoundPlayerMultiOutput::ofxSoundPlayerMultiOutput()
 void ofxSoundPlayerMultiOutput::initializeFmod()
 {
     FMOD_SPEAKERMODE  	speakermode;
-    int numdrivers;
 
     if(!bFmodInitialized_)
     {
@@ -212,9 +225,10 @@ void ofxSoundPlayerMultiOutput::initializeFmod()
 		ofLog() << " - version = " << ofToString(version);
 
 		// Drivers info
-		int numDrivers = 0;
+		numDrivers = 0;
 		ofFmodErrorCheck( FMOD_System_GetNumDrivers(sys, &numDrivers) );
 		ofLog() << " - found "<< ofToString(numDrivers) << " sound drivers ";
+
 
 		// Drivers info / caps print
 		char driverName[256];
@@ -228,10 +242,10 @@ void ofxSoundPlayerMultiOutput::initializeFmod()
 		{
 			// Driver info
 			// TODO : check link error ?
-//			FMOD_System_GetDriverInfo(sys, id, driverName, 256, &driverGuid);
+			//FMOD_System_GetDriverInfo(sys, id, driverName, 256, &driverGuid);
 
 			// Driver Caps
-			ofFmodErrorCheck( FMOD_System_GetDriverCaps(sys, id, &driverCaps, &driverMinFreq, &driverMaxFreq, &driverSpeakerMode) );
+			// ofFmodErrorCheck( FMOD_System_GetDriverCaps(sys, id, &driverCaps, &driverMinFreq, &driverMaxFreq, &driverSpeakerMode) );
 
 			// log
 			ofLog() << "   - [" << ofToString(id) << "] speakerMode=" << ofToString((int)driverSpeakerMode) << "; minFreq = " << ofToString(driverMinFreq) << "; maxFreq = " <<  ofToString(driverMaxFreq);
