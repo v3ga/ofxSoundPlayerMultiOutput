@@ -31,6 +31,7 @@ void ofFmodSoundUpdate();						// calls FMOD update.
 float * ofFmodSoundGetSpectrum(int nBands);		// max 512...
 void ofFmodSelectDriver(int driver);
 void ofFmodSetNumOutputs(int num);				// not sure of this
+int  ofFmodGetNumOutputs();				// not sure of this
 void ofFmodErrorCheck(FMOD_RESULT result);
 
 // --------------------- player functions:

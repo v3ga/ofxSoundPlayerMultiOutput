@@ -57,6 +57,11 @@ void ofFmodSetNumOutputs(int num)
 	numOutputsFMOD = num;
 }
 
+//--------------------
+int  ofFmodGetNumOutputs()
+{
+	return numOutputsFMOD;
+}
 
 
 //--------------------
@@ -568,7 +573,7 @@ void ofxSoundPlayerMultiOutput::playTo(int speaker0, int speaker1)
 // ----------------------------------------------------------------------------
 void ofxSoundPlayerMultiOutput::playTo(int* speakers, int numSpeakers)
 {
-	if (speakers == 0) return;
+	if (speakers == 0 || numSpeakers == 0) return;
 
     if (bLoop == true)
     {
