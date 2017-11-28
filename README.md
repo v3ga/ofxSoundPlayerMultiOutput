@@ -14,13 +14,14 @@ Then you can use the method `playTo` to play the loaded sound on different speak
 	soundPlayer.playTo(3,4); 		// Plays sound to speakers 3,4
 	int speakers[4] = {0,1,4,5};	
 	soundPlayer.playTo(speakers,4); // Plays sound to speakers 0,1,4,5
-
+	
+You can also set individual volume for every channel and every speaker using `setVolumeAt`
 
 ## References
 https://raw.githubusercontent.com/vcuculo/ofxMultiSpeakerSoundPlayer
 
 ## Platform
-Developped with Openframeworks 0.8+ on MacOS 10.9.4 with a Motu 828mk2 device connected through Firewire.
+Developped with Openframeworks 0.8+ on MacOS 10.9.4 with a Motu 828mk2 device connected through Firewire and UltraLite MK3 USB
 
 ## Screenshot
 ![System preferences](http://v3ga.github.io/Images/ofxSoundPlayerMultiOutput/ofxSoundPlayerMultiOutput_System_preferences.png)
