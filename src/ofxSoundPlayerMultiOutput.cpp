@@ -263,7 +263,7 @@ void ofxSoundPlayerMultiOutput::initializeFmod()
 		ofFmodErrorCheck( FMOD_System_SetSoftwareFormat(sys, 44100, FMOD_SOUND_FORMAT_NONE, numOutputsFMOD, 0,FMOD_DSP_RESAMPLER_LINEAR) );
 
 		// Speaker mode
-        ofFmodErrorCheck( FMOD_System_SetSpeakerMode(sys, FMOD_SPEAKERMODE_RAW) );
+        ofFmodErrorCheck( FMOD_System_SetSpeakerMode(sys, FMOD_SPEAKERMODE_5POINT1) );
 
 
 
@@ -290,7 +290,7 @@ void ofxSoundPlayerMultiOutput::closeFmod()
 }
 
 //------------------------------------------------------------
-bool ofxSoundPlayerMultiOutput::loadSound(string fileName, bool stream)
+bool ofxSoundPlayerMultiOutput::loadSound(std::string fileName, bool stream)
 {
 
     fileName = ofToDataPath(fileName);
@@ -336,6 +336,14 @@ bool ofxSoundPlayerMultiOutput::loadSound(string fileName, bool stream)
 
     return bLoadedOk;
 }
+
+void ofxSoundPlayerMultiOutput::setChannelLevels(float* levels) {
+    
+    FMOD_Channel_SetSpeakerMix(channel, levels[0], levels[1],levels[2],levels[3],levels[4],levels[5],levels[6],levels[7]);
+
+}
+
+
 
 //------------------------------------------------------------
 void ofxSoundPlayerMultiOutput::unloadSound()
@@ -534,98 +542,8 @@ void ofxSoundPlayerMultiOutput::play()
 
 }
 
-// ----------------------------------------------------------------------------
-void ofxSoundPlayerMultiOutput::playTo(int speaker)
-{
-
-    // if it's a looping sound, we should try to kill it, no?
-    // or else people will have orphan channels that are looping
-    if (bLoop == true)
-    {
-        FMOD_Channel_Stop(channel);
-    }
-
-    // if the sound is not set to multiplay, then stop the current,
-    // before we start another
-    if (!bMultiPlay)
-    {
-        FMOD_Channel_Stop(channel);
-    }
 
 
-	float levels[1];
-	levels[0] = 1.0f;
-
-    FMOD_System_PlaySound(sys, FMOD_CHANNEL_FREE, sound, 1, &channel);
-	FMOD_Channel_SetSpeakerLevels(channel, (FMOD_SPEAKER)speaker, levels, 1);
-
-    FMOD_Channel_SetPaused(channel, 0);
-
-    FMOD_Channel_GetFrequency(channel, &internalFreq);
-    FMOD_Channel_SetVolume(channel,volume);
-    FMOD_Channel_SetFrequency(channel, internalFreq * speed);
-    FMOD_Channel_SetMode(channel,  (bLoop == true) ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF);
-
-    //fmod update() should be called every frame - according to the docs.
-    //we have been using fmod without calling it at all which resulted in channels not being able
-    //to be reused.  we should have some sort of global update function but putting it here
-    //solves the channel bug
-    FMOD_System_Update(sys);
-
-}
-
-// ----------------------------------------------------------------------------
-void ofxSoundPlayerMultiOutput::playTo(int speaker0, int speaker1)
-{
-	int speakers[2];
-	speakers[0] = speaker0;
-	speakers[1] = speaker1;
-	playTo(speakers,2);
-}
-
-
-// ----------------------------------------------------------------------------
-void ofxSoundPlayerMultiOutput::playTo(int* speakers, int numSpeakers)
-{
-	if (speakers == 0 || numSpeakers == 0) return;
-
-    if (bLoop == true)
-    {
-        FMOD_Channel_Stop(channel);
-    }
-
-    // if the sound is not set to multiplay, then stop the current,
-    // before we start another
-    if (!bMultiPlay)
-    {
-        FMOD_Channel_Stop(channel);
-    }
-
-
-	float levels[1];
-	levels[0] = 1.0f;
-
-    FMOD_System_PlaySound(sys, FMOD_CHANNEL_FREE, sound, 1, &channel);
-	for (int i=0; i<numSpeakers;i++)
-	{
-	FMOD_Channel_SetSpeakerLevels(channel, (FMOD_SPEAKER)speakers[i], levels, 1);
-	}
-
-    FMOD_Channel_SetPaused(channel, 0);
-
-    FMOD_Channel_GetFrequency(channel, &internalFreq);
-    FMOD_Channel_SetVolume(channel,volume);
-    FMOD_Channel_SetFrequency(channel, internalFreq * speed);
-    FMOD_Channel_SetMode(channel,  (bLoop == true) ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF);
-
-    //fmod update() should be called every frame - according to the docs.
-    //we have been using fmod without calling it at all which resulted in channels not being able
-    //to be reused.  we should have some sort of global update function but putting it here
-    //solves the channel bug
-    FMOD_System_Update(sys);
-	
-
-}
 
 
 // ----------------------------------------------------------------------------

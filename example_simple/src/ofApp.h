@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxSoundPlayerMultiOutput.h"
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
 
@@ -20,7 +21,18 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		ofxSoundPlayerMultiOutput soundPlayer;
+		ofxSoundPlayerMultiOutput bassSound;
+        ofxSoundPlayerMultiOutput beatSound;
+    
+        ofxPanel gui;
+        ofParameterGroup mainParams;
+        ofParameterGroup bassParams;
+        ofParameterGroup beatParams;
+    
+        vector<ofParameter<float>> bassLevels;
+        vector<ofParameter<float>> beatLevels;
+
+
 		//ofSoundPlayer soundPlayer;
 	
 };

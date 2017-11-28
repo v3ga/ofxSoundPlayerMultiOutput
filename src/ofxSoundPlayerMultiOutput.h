@@ -1,10 +1,7 @@
 #pragma once
 
-#include "ofConstants.h"
-
-
-#include "ofBaseSoundPlayer.h"
-
+#include "ofMain.h"
+//#include "ofBaseSoundPlayer.h"
 
 extern "C" {
 #include "fmod.h"
@@ -25,63 +22,62 @@ extern "C" {
 // ---------------------------------------------------------------------------- SOUND SYSTEM FMOD
 
 // --------------------- global functions:
-void ofFmodSoundStopAll();
-void ofFmodSoundSetVolume(float vol);
-void ofFmodSoundUpdate();						// calls FMOD update.
+
+void    ofFmodSoundStopAll();
+void    ofFmodSoundSetVolume(float vol);
+void    ofFmodSoundUpdate();						// calls FMOD update.
 float * ofFmodSoundGetSpectrum(int nBands);		// max 512...
-void ofFmodSelectDriver(int driver);
-void ofFmodSetNumOutputs(int num);				// not sure of this
-int  ofFmodGetNumOutputs();				// not sure of this
-int ofFmodGetNumDrivers();
-int ofFmodGetDriverSelected();
-void ofFmodErrorCheck(FMOD_RESULT result);
+void    ofFmodSelectDriver(int driver);
+void    ofFmodSetNumOutputs(int num);				// not sure of this
+int     ofFmodGetNumOutputs();				// not sure of this
+int     ofFmodGetNumDrivers();
+int     ofFmodGetDriverSelected();
+void    ofFmodErrorCheck(FMOD_RESULT result);
 
 
 // --------------------- player functions:
-class ofxSoundPlayerMultiOutput : public ofBaseSoundPlayer {
+class ofxSoundPlayerMultiOutput  {
 
 	public:
 
 		ofxSoundPlayerMultiOutput();
 
-		bool loadSound(string fileName, bool stream = false);
-		void unloadSound();
-		void play();
-		void playTo(int speaker);
-		void playTo(int speaker0, int speaker1);
-		void playTo(int* speakers, int numSpeakers);
-		void stop();
+        bool    loadSound(std::string fileName, bool stream = false);
+		void    unloadSound();
+		void    play();
+        void    setChannelLevels(float* levels);
+		void    stop();
 
-		void setVolume(float vol);
-		void setPan(float vol);
-		void setSpeed(float spd);
-		void setPaused(bool bP);
-		void setLoop(bool bLp);
-		void setMultiPlay(bool bMp);
-		void setPosition(float pct); // 0 = start, 1 = end;
-		void setPositionMS(int ms);
+		void    setVolume(float vol);
+		void    setPan(float vol);
+		void    setSpeed(float spd);
+		void    setPaused(bool bP);
+		void    setLoop(bool bLp);
+		void    setMultiPlay(bool bMp);
+		void    setPosition(float pct); // 0 = start, 1 = end;
+		void    setPositionMS(int ms);
 
-		float getPosition();
-		int getPositionMS();
-		bool getIsPlaying();
-		float getSpeed();
-		float getPan();
-		float getVolume();
-		bool isLoaded();
+		float   getPosition();
+		int     getPositionMS();
+		bool    getIsPlaying();
+		float   getSpeed();
+		float   getPan();
+		float   getVolume();
+		bool    isLoaded();
 
 		static void initializeFmod();
 		static void closeFmod();
 
-		bool isStreaming;
-		bool bMultiPlay;
-		bool bLoop;
-		bool bLoadedOk;
-		bool bPaused;
-		float pan; // -1 to 1
-		float volume; // 0 - 1
-		float internalFreq; // 44100 ?
-		float speed; // -n to n, 1 = normal, -1 backwards
-		unsigned int length; // in samples;
+		bool            isStreaming;
+		bool            bMultiPlay;
+		bool            bLoop;
+		bool            bLoadedOk;
+		bool            bPaused;
+		float           pan; // -1 to 1
+		float           volume; // 0 - 1
+		float           internalFreq; // 44100 ?
+		float           speed; // -n to n, 1 = normal, -1 backwards
+		unsigned int    length; // in samples;
 
 		FMOD_RESULT result;
 		FMOD_CHANNEL * channel;
