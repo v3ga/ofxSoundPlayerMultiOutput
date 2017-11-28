@@ -210,6 +210,8 @@ ofxSoundPlayerMultiOutput::ofxSoundPlayerMultiOutput()
 void ofxSoundPlayerMultiOutput::initializeFmod()
 {
     FMOD_SPEAKERMODE  	speakermode;
+    
+   
 
     if(!bFmodInitialized_)
     {
@@ -333,17 +335,51 @@ bool ofxSoundPlayerMultiOutput::loadSound(std::string fileName, bool stream)
         FMOD_Sound_GetLength(sound, &length, FMOD_TIMEUNIT_PCM);
         isStreaming = stream;
     }
+    
+    // set levels
+    for(int i =0; i<8; i++) {
+        levels[i] = 1.0;
+    }
+    
 
     return bLoadedOk;
 }
 
-void ofxSoundPlayerMultiOutput::setChannelLevels(float* levels) {
+void ofxSoundPlayerMultiOutput::setChannelLevels() {
     
     FMOD_Channel_SetSpeakerMix(channel, levels[0], levels[1],levels[2],levels[3],levels[4],levels[5],levels[6],levels[7]);
 
 }
 
+void ofxSoundPlayerMultiOutput::playTo(int speaker) {
+    for(int i =0; i<8; i++) {
+        levels[i] = 0;
+    }
+    setVolumeAt(speaker, 1.0);
+    play();
+    
+}
 
+void ofxSoundPlayerMultiOutput::playTo(int speaker0, int speaker1) {
+    for(int i =0; i<8; i++) {
+        levels[i] = 0;
+    }
+    setVolumeAt(speaker0, 1.0);
+    setVolumeAt(speaker1, 1.0);
+
+    play();
+}
+
+void ofxSoundPlayerMultiOutput::playTo(int* speakers, int numSpeakers) {
+    
+    for(int i =0; i<8; i++) {
+        levels[i] = 0;
+    }
+    for(int i =0; i<numSpeakers; i++) {
+        levels[speakers[i]] = 1.0;
+    }
+    play();
+}
 
 //------------------------------------------------------------
 void ofxSoundPlayerMultiOutput::unloadSound()
@@ -399,6 +435,19 @@ void ofxSoundPlayerMultiOutput::setVolume(float vol)
         FMOD_Channel_SetVolume(channel, vol);
     }
     volume = vol;
+    
+    for(int i=0; i<8; i++) {
+        setVolumeAt(i, volume);
+    }
+}
+
+//------------------------------------------------------------
+
+void ofxSoundPlayerMultiOutput::setVolumeAt(int index, float volume) {
+    
+    levels[index] = volume;
+    setChannelLevels();
+    
 }
 
 //------------------------------------------------------------

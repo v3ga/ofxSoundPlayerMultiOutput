@@ -45,10 +45,16 @@ class ofxSoundPlayerMultiOutput  {
         bool    loadSound(std::string fileName, bool stream = false);
 		void    unloadSound();
 		void    play();
-        void    setChannelLevels(float* levels);
+        void    setChannelLevels();
 		void    stop();
-
+    
+        void    playTo(int speaker);
+        void    playTo(int speaker0, int speaker1);
+        void    playTo(int* speakers, int numSpeakers);
+    
 		void    setVolume(float vol);
+        void    setVolumeAt(int index, float volume);
+    
 		void    setPan(float vol);
 		void    setSpeed(float spd);
 		void    setPaused(bool bP);
@@ -78,7 +84,9 @@ class ofxSoundPlayerMultiOutput  {
 		float           internalFreq; // 44100 ?
 		float           speed; // -n to n, 1 = normal, -1 backwards
 		unsigned int    length; // in samples;
-
+    
+        float           levels[8];
+    
 		FMOD_RESULT result;
 		FMOD_CHANNEL * channel;
 		FMOD_SOUND * sound;

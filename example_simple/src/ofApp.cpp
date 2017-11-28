@@ -47,21 +47,14 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    float levels[8];
     for(int i =0; i<8; i++) {
-        levels[i] = bassLevels[i];
+        bassSound.setVolumeAt(i, bassLevels[i]);
     }
 
-    
-    bassSound.setChannelLevels(levels);
-    
     for(int i =0; i<8; i++) {
-        levels[i] = beatLevels[i];
+        beatSound.setVolumeAt(i, bassLevels[i]);
     }
-    
-    
-    beatSound.setChannelLevels(levels);
-    
+
 	ofFmodSoundUpdate();
     
     
@@ -75,47 +68,3 @@ void ofApp::draw(){
     gui.draw();
 }
 
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
-}
