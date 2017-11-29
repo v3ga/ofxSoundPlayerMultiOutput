@@ -28,7 +28,7 @@ void ofApp::setup(){
     //---------------------------------- fmod
     
     // Select driver (see log)
-    ofFmodSelectDriver(0);
+    ofModMulti::ofFmodSelectDriver(0);
 	
 	   // Load sound
     bassSound.loadSound("bass.wav", true);
@@ -52,7 +52,7 @@ void ofApp::update(){
     }
 
     for(int i =0; i<8; i++) {
-        beatSound.setVolumeAt(i, bassLevels[i]);
+        beatSound.setVolumeAt(i, beatLevels[i]);
     }
 
 	ofFmodSoundUpdate();

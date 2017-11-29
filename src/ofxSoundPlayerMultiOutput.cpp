@@ -2,6 +2,8 @@
 #include "ofUtils.h"
 
 
+namespace ofModMulti {
+    
 bool bFmodInitialized_ = false;
 bool bUseSpectrum_ = false;
 float fftValues_[8192];			//
@@ -186,10 +188,13 @@ float * ofFmodSoundGetSpectrum(int nBands)
     return fftInterpValues_;
 }
 
+    
+}
 // ------------------------------------------------------------
 // ------------------------------------------------------------
 
 
+using namespace ofModMulti;
 // now, the individual sound player:
 //------------------------------------------------------------
 ofxSoundPlayerMultiOutput::ofxSoundPlayerMultiOutput()
@@ -244,13 +249,13 @@ void ofxSoundPlayerMultiOutput::initializeFmod()
 		{
 			// Driver info
 			// TODO : check link error ?
-			//FMOD_System_GetDriverInfo(sys, id, driverName, 256, &driverGuid);
+			FMOD_System_GetDriverInfo(sys, id, driverName, 256, &driverGuid);
 
 			// Driver Caps
 			// ofFmodErrorCheck( FMOD_System_GetDriverCaps(sys, id, &driverCaps, &driverMinFreq, &driverMaxFreq, &driverSpeakerMode) );
 
 			// log
-			ofLog() << "   - [" << ofToString(id) << "] speakerMode=" << ofToString((int)driverSpeakerMode) << "; minFreq = " << ofToString(driverMinFreq) << "; maxFreq = " <<  ofToString(driverMaxFreq);
+			ofLog() << "   - [" << driverName << " " << ofToString(id) << "] speakerMode=" << ofToString((int)driverSpeakerMode) << "; minFreq = " << ofToString(driverMinFreq) << "; maxFreq = " <<  ofToString(driverMaxFreq);
 		}
 
 		// Setting driver
