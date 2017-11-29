@@ -224,6 +224,12 @@ void ofxSoundPlayerMultiOutput::initializeFmod()
      
 	 	// Create FMOD system
 		ofFmodErrorCheck( FMOD_System_Create(&sys) );
+        
+        unsigned int bsTmp;
+        int nbTmp;
+        FMOD_System_GetDSPBufferSize(sys, &bsTmp, &nbTmp);
+        FMOD_System_SetDSPBufferSize(sys, 1024, nbTmp);
+
         // FMOD_System_SetDriver(sys, 7); // setup driver 7.1 with index 7
 				
 		// Get FMOD Version
@@ -264,11 +270,12 @@ void ofxSoundPlayerMultiOutput::initializeFmod()
 			driverFMOD = 0;
 			ofLog(OF_LOG_WARNING) << " - chosen driver ["<< driverFMOD <<"] is invalid, setting to default [0]";
 		}
+        
+        
+#ifdef TARGET_OSX
 		ofFmodErrorCheck( FMOD_System_SetDriver(sys, driverFMOD) );
-
-		// (FMOD_SYSTEM *system, int samplerate, FMOD_SOUND_FORMAT format, int numoutputchannels, int maxinputchannels, FMOD_DSP_RESAMPLER resamplemethod);
 		ofFmodErrorCheck( FMOD_System_SetSoftwareFormat(sys, 44100, FMOD_SOUND_FORMAT_NONE, numOutputsFMOD, 0,FMOD_DSP_RESAMPLER_LINEAR) );
-
+#endif
 		// Speaker mode
         ofFmodErrorCheck( FMOD_System_SetSpeakerMode(sys, FMOD_SPEAKERMODE_5POINT1) );
 
